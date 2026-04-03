@@ -132,13 +132,17 @@ This project is configured for GitHub Pages deployment through GitHub Actions.
 The site will be published at:
 
 ```text
-https://<your-github-username>.github.io/<your-repository-name>/
+https://LAXMICHANDRA-MANNE.github.io/<your-repository-name>/
 ```
 
 Notes:
 
 - The Vite base path is automatically set from the GitHub repository name during deployment.
-- If you publish from a repository named `<your-github-username>.github.io`, set `VITE_BASE_PATH=/` for production instead of the repository-name path.
+- If you publish from a repository named `LAXMICHANDRA-MANNE.github.io`, the workflow automatically deploys to the root URL:
+
+```text
+https://LAXMICHANDRA-MANNE.github.io/
+```
 
 
 ## <a name="links">🔗 Assets and Snippets</a>
