@@ -17,6 +17,8 @@ body {
 
 section {
   width: 100dvw;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
 }
 
 @theme {

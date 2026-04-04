@@ -1,18 +1,31 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { useMediaQuery } from "react-responsive";
 
 import Computer from "./Computer";
 
 const ContactExperience = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
   return (
-    <Canvas shadows camera={{ position: [0, 3, 7], fov: 45 }}>
+    <Canvas
+      shadows={!isMobile}
+      frameloop="demand"
+      dpr={isMobile ? [0.7, 1] : [1, 1.5]}
+      camera={{ position: [0, 3, 7], fov: 45 }}
+      gl={{
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? "low-power" : "high-performance",
+      }}
+    >
       <ambientLight intensity={0.5} color="#fff4e6" />
 
       <directionalLight position={[5, 5, 3]} intensity={2.5} color="#ffd9b3" />
 
       <directionalLight
         position={[5, 9, 1]}
-        castShadow
+        castShadow={!isMobile}
         intensity={2.5}
         color="#ffd9b3"
       />
@@ -23,9 +36,9 @@ const ContactExperience = () => {
         maxPolarAngle={Math.PI / 2}
       />
 
-      <group scale={[1, 1, 1]}>
+      <group scale={isMobile ? [0.9, 0.9, 0.9] : [1, 1, 1]}>
         <mesh
-          receiveShadow
+          receiveShadow={!isMobile}
           position={[0, -1.5, 0]}
           rotation={[-Math.PI / 2, 0, 0]}
         >

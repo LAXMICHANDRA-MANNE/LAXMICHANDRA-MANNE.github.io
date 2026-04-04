@@ -1,17 +1,42 @@
-import { useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
-import ContactExperience from "../components/models/contact/ContactExperience";
+
+const ContactExperience = lazy(() =>
+  import("../components/models/contact/ContactExperience")
+);
 
 const Contact = () => {
+  const sectionRef = useRef(null);
   const formRef = useRef(null);
+  const [showScene, setShowScene] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  useEffect(() => {
+    const node = sectionRef.current;
+
+    if (!node || showScene) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowScene(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "250px 0px" }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [showScene]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +65,11 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="flex-center section-padding">
+    <section
+      id="contact"
+      ref={sectionRef}
+      className="flex-center section-padding"
+    >
       <div className="w-full h-full md:px-10 px-5">
         <TitleHeader
           title="Get in Touch – Let’s Connect"
@@ -109,7 +138,15 @@ const Contact = () => {
           </div>
           <div className="xl:col-span-7 min-h-96">
             <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
-              <ContactExperience />
+              {showScene ? (
+                <Suspense fallback={null}>
+                  <ContactExperience />
+                </Suspense>
+              ) : (
+                <div className="flex h-full min-h-96 items-center justify-center px-6 text-center text-white/80">
+                  3D preview loads when this section enters the viewport.
+                </div>
+              )}
             </div>
           </div>
         </div>

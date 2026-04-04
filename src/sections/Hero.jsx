@@ -1,12 +1,18 @@
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
 import { words } from "../constants";
-import HeroExperience from "../components/models/hero_models/HeroExperience";
+
+const HeroExperience = lazy(() =>
+  import("../components/models/hero_models/HeroExperience")
+);
 
 const Hero = () => {
+  const [showScene, setShowScene] = useState(false);
+
   useGSAP(() => {
     gsap.fromTo(
       ".hero-text h1",
@@ -14,6 +20,19 @@ const Hero = () => {
       { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
     );
   });
+
+  useEffect(() => {
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(() => setShowScene(true), {
+        timeout: 1000,
+      });
+
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(() => setShowScene(true), 300);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   return (
     <section id="hero" className="relative overflow-hidden">
@@ -66,7 +85,13 @@ const Hero = () => {
         {/* RIGHT: 3D Model or Visual */}
         <figure>
           <div className="hero-3d-layout">
-            <HeroExperience />
+            {showScene ? (
+              <Suspense fallback={null}>
+                <HeroExperience />
+              </Suspense>
+            ) : (
+              <div className="h-full w-full bg-[radial-gradient(circle_at_center,_rgba(60,88,124,0.35),_transparent_60%)]" />
+            )}
           </div>
         </figure>
       </div>
