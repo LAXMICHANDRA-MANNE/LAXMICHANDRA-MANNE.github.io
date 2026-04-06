@@ -28,7 +28,7 @@ const TechIconCardExperience = ({ model }) => {
         penumbra={1}
         intensity={2}
       />
-      <Environment preset="city" />
+      <Environment files="/textures/potsdamer_platz_1k.hdr" />
 
       {/* 
         The Float component from @react-three/drei is used to 

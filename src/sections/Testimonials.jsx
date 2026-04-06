@@ -1,8 +1,7 @@
-import { securityProfile, testimonials } from "../constants";
+import { securityProfile } from "../constants";
 import TitleHeader from "../components/TitleHeader";
-import GlowCard from "../components/GlowCard";
 
-const Testimonials = () => {
+const SecurityProfileContainer = () => {
   return (
     <section id="security-profile" className="flex-center section-padding">
       <div className="w-full h-full md:px-10 px-5">
@@ -112,26 +111,40 @@ const Testimonials = () => {
             </div>
           </div>
 
-          <div id="testimonials" className="testimonial-panel">
+          <div id="philosophy" className="testimonial-panel flex flex-col gap-8">
             <div className="security-section-head items-start">
-              <span className="security-kicker">Testimonials</span>
-              <h3 className="text-left">Trusted delivery backed by real outcomes.</h3>
+              <span className="security-kicker">Philosophy & Execution</span>
+              <h3 className="text-left">Architected for offensive resilience.</h3>
             </div>
 
-            <div className="mt-8">
-              {testimonials.map((testimonial, index) => (
-                <GlowCard card={testimonial} key={index} index={index}>
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <img src={testimonial.imgPath} alt="" />
-                    </div>
-                    <div>
-                      <p className="font-bold">{testimonial.name}</p>
-                      <p className="text-white-50">{testimonial.mentions}</p>
-                    </div>
-                  </div>
-                </GlowCard>
-              ))}
+            <div className="flex-1 space-y-5">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-cyan-400/30 group">
+                <h4 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">01. Threat-Modeled Design</h4>
+                <p className="text-white-50 leading-relaxed text-[15px]">
+                  Infrastructure is built assuming a hostile environment. Every service boundary is treated as a potential attack vector, enforcing strict isolation and zero-trust policies before deployment.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-cyan-400/30 group">
+                <h4 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">02. Automated Enforcement</h4>
+                <p className="text-white-50 leading-relaxed text-[15px]">
+                  Scale requires automation. Security practices are baked directly into the pipeline—SAST, DAST, and configuration hardening execute dynamically alongside standard workflows.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-cyan-400/30 group">
+                <h4 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">03. High-Fidelity Observability</h4>
+                <p className="text-white-50 leading-relaxed text-[15px]">
+                  Without visibility, incident response is blind. Deep instrumentation ensures anomalous behaviors, memory exploits, and unauthorized traversals trigger immediate alerts.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all hover:bg-white/10 hover:border-cyan-400/30 group">
+                <h4 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">04. Execution Over Templates</h4>
+                <p className="text-white-50 leading-relaxed text-[15px]">
+                  Standard templates harbor legacy vulnerabilities. Systems are developed ground-up with a bias towards modern, hardened frameworks for mission-critical execution.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -140,4 +153,4 @@ const Testimonials = () => {
   );
 };
 
-export default Testimonials;
+export default SecurityProfileContainer;
