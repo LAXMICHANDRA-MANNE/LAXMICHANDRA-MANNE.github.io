@@ -1,5 +1,4 @@
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
 
@@ -9,14 +8,7 @@ const ContactExperience = lazy(() =>
 
 const Contact = () => {
   const sectionRef = useRef(null);
-  const formRef = useRef(null);
   const [showScene, setShowScene] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
 
   useEffect(() => {
     const node = sectionRef.current;
@@ -38,43 +30,6 @@ const Contact = () => {
     return () => observer.disconnect();
   }, [showScene]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const serviceId = import.meta.env.VITE_APP_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      alert("⚠️ Configuration missing! Please add your EmailJS keys to a .env.local file to receive messages.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      await emailjs.sendForm(
-        serviceId,
-        templateId,
-        formRef.current,
-        publicKey
-      );
-
-      setForm({ name: "", email: "", message: "" });
-      alert("✅ Message sent successfully! I will get back to you soon.");
-    } catch (error) {
-      console.error("EmailJS Error:", error);
-      alert("❌ Something went wrong while sending your message. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <section
       id="contact"
@@ -88,63 +43,15 @@ const Contact = () => {
         />
         <div className="grid-12-cols mt-16">
           <div className="xl:col-span-5">
-            <div className="flex-center card-border rounded-xl p-10">
-              <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                className="w-full flex flex-col gap-7"
-              >
-                <div>
-                  <label htmlFor="name">Your name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="What’s your good name?"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email">Your Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="What’s your email address?"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message">Your Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="How can I help you?"
-                    rows="5"
-                    required
-                  />
-                </div>
-
-                <button type="submit">
-                  <div className="cta-button group">
-                    <div className="bg-circle" />
-                    <p className="text">
-                      {loading ? "Sending..." : "Send Message"}
-                    </p>
-                    <div className="arrow-wrapper">
-                      <img src="/images/arrow-down.svg" alt="arrow" />
-                    </div>
-                  </div>
-                </button>
-              </form>
+            <div className="flex-center card-border rounded-xl p-10 min-h-96">
+              <div className="w-full flex flex-col gap-7 text-center justify-center h-full">
+                <p className="text-xl md:text-2xl font-semibold text-white">
+                  Please reach out to <a href="mailto:xrstarter@gmail.com" className="text-[#cd7c2e] hover:underline">xrstarter@gmail.com</a>
+                </p>
+                <p className="text-lg text-white/80">
+                  Feel free to text there! 💬
+                </p>
+              </div>
             </div>
           </div>
           <div className="xl:col-span-7 min-h-96">
